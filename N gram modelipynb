@@ -1,0 +1,72 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyMcjFA95K6HN1WRuOIqUBc3",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/HarshithaNalla/FML-LAB/blob/main/N%20gram%20modelipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 15,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "D7PFrbCcGjbm",
+        "outputId": "4cb185e4-bcf6-4529-892c-7881f27b37ea"
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "defaultdict(<function <lambda>.<locals>.<lambda> at 0x7f8351d479a0>, {})\n"
+          ]
+        }
+      ],
+      "source": [
+        "from nltk.corpus import reuters\n",
+        "from nltk import bigrams, trigrams\n",
+        "from collections import Counter, defaultdict\n",
+        "\n",
+        "# Create a placeholder for model\n",
+        "model = defaultdict(lambda: defaultdict(lambda: 0))\n",
+        "\n",
+        "# Count frequency of co-occurance\n",
+        "for sentence in reuters.sents():\n",
+        "    for w1, w2, w3 in trigrams(sentence, pad_right=True, pad_left=True):\n",
+        "        model[(w1, w2)][w3] += 1\n",
+        "\n",
+        "for w1_w2 in model:\n",
+        "    total_count = float(sum(model[w1_w2].values()))\n",
+        "\n",
+        "    for w3 in model[w1_w2]:\n",
+        "        model[w1_w2][w3] /= total_count\n",
+        "\n",
+        "print(model[('public', 'helo')])\n",
+        "      "
+      ]
+    }
+  ]
+}
